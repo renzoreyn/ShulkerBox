@@ -12,7 +12,7 @@
   --muted: #a1a1aa;
   --font: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   --radius: 14px;
-  --nav-h: 80px;
+  --nav-h: 148px;
   --max: 1120px;
   --scrollbar-track: #2a2a34;
   --scrollbar-thumb: #52525b;
@@ -66,29 +66,15 @@ img {
   height: auto;
 }
 
-/* Page scrollbar only (thin, no arrows) */
+/* Hide page scrollbar; page still scrolls */
 html {
-  scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-thumb) transparent;
+  scrollbar-width: none;
 }
 
 html::-webkit-scrollbar {
-  width: 8px;
-}
-
-html::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-html::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb);
-  border-radius: 999px;
-}
-
-html::-webkit-scrollbar-button {
   display: none;
-  height: 0;
   width: 0;
+  height: 0;
 }
 
 /* Nav */
@@ -137,12 +123,11 @@ html::-webkit-scrollbar-button {
 }
 
 .nav-logo {
-  height: 100px;
+  height: 125px;
   width: auto;
-  max-width: min(300px, 46vw);
+  max-width: min(500px, 85vw);
   object-fit: contain;
   object-position: left center;
-  filter: drop-shadow(0 0 12px var(--purple-glow));
 }
 
 .nav-links {
@@ -285,20 +270,42 @@ html::-webkit-scrollbar-button {
 
 /* Hero */
 .hero {
-  min-height: auto;
-  padding: calc(var(--nav-h) + 28px) 24px 72px;
+  min-height: min(72vh, 720px);
+  padding: calc(var(--nav-h) + 28px) 24px 88px;
   display: flex;
   align-items: flex-start;
   position: relative;
   overflow: hidden;
+  background: #0a0908;
+}
+
+.hero-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(7, 7, 9, 0.35) 0%, transparent 35%, transparent 70%, rgba(7, 7, 9, 0.55) 100%),
+    radial-gradient(ellipse 90% 80% at 50% 40%, transparent 40%, rgba(7, 7, 9, 0.45) 100%);
+  pointer-events: none;
+  z-index: 1;
 }
 
 .hero-glow {
   position: absolute;
-  inset: -20% -10% auto;
-  height: 70%;
-  background: radial-gradient(ellipse 70% 60% at 50% 0%, var(--purple-glow), transparent 65%);
+  inset: -30% -15% auto;
+  height: 85%;
+  background: radial-gradient(
+    ellipse 75% 65% at 50% 0%,
+    var(--purple-glow),
+    transparent 68%
+  );
   pointer-events: none;
+  z-index: 2;
+  will-change: opacity, transform;
+}
+
+.hero .btn-gold,
+.hero .btn-gold:hover {
+  box-shadow: none;
 }
 
 .hero-grid {
@@ -310,6 +317,7 @@ html::-webkit-scrollbar-button {
   mask-image: linear-gradient(180deg, black 0%, transparent 85%);
   opacity: 0.5;
   pointer-events: none;
+  z-index: 1;
 }
 
 .hero-inner {
@@ -321,7 +329,7 @@ html::-webkit-scrollbar-button {
   gap: 48px;
   align-items: center;
   position: relative;
-  z-index: 1;
+  z-index: 3;
 }
 
 .hero-inner--stack {
@@ -330,8 +338,38 @@ html::-webkit-scrollbar-button {
   align-items: start;
 }
 
-.hero-inner--stack .hero-copy {
+.hero-panel {
+  position: relative;
   max-width: 720px;
+  padding: 32px 36px 36px;
+  border: 1px solid rgba(250, 204, 21, 0.22);
+  border-radius: 6px;
+  background: rgba(12, 10, 9, 0.82);
+  overflow: hidden;
+}
+
+.hero-panel-dirt {
+  position: absolute;
+  inset: 0;
+  background-image: url("../images/dirt-texture.svg");
+  background-size: 72px 72px;
+  background-repeat: repeat;
+  image-rendering: pixelated;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.hero-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(7, 7, 9, 0.15) 0%, rgba(7, 7, 9, 0.45) 100%);
+  pointer-events: none;
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 1;
 }
 
 .hero-inner--stack .hero-sub {
@@ -339,16 +377,15 @@ html::-webkit-scrollbar-button {
 }
 
 .hero-copy .eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  border-radius: 999px;
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 4px;
   background: var(--gold-dim);
   border: 1px solid rgba(250, 204, 21, 0.35);
   color: var(--gold);
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 700;
+  letter-spacing: 0.02em;
   margin-bottom: 20px;
 }
 
@@ -388,6 +425,7 @@ html::-webkit-scrollbar-button {
   gap: 16px 24px;
   font-size: 0.85rem;
   color: var(--muted);
+  overflow: hidden;
 }
 
 .hero-meta span {
@@ -877,11 +915,48 @@ body.modal-open {
 
 /* CTA */
 .cta-section {
+  position: relative;
+  overflow: visible;
   text-align: center;
-  padding: 100px 24px;
+  padding: 100px 24px 100px;
+  background: radial-gradient(ellipse 90% 70% at 50% 100%, rgba(163, 113, 163, 0.12), transparent 72%);
+}
+
+.cta-rays {
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1200px, 100%);
+  height: 280px;
   background:
-    radial-gradient(ellipse 90% 70% at 50% 100%, var(--purple-glow), transparent 72%),
-    radial-gradient(ellipse 50% 40% at 50% 0%, rgba(250, 204, 21, 0.06), transparent 70%);
+    radial-gradient(ellipse 55% 45% at 50% 100%, rgba(250, 204, 21, 0.2), transparent 70%),
+    conic-gradient(
+      from 200deg at 50% 100%,
+      transparent 0deg,
+      rgba(163, 113, 163, 0.18) 20deg,
+      transparent 40deg,
+      rgba(250, 204, 21, 0.12) 55deg,
+      transparent 75deg,
+      rgba(163, 113, 163, 0.14) 95deg,
+      transparent 115deg
+    );
+  filter: blur(42px);
+  opacity: 0.95;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cta-inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max);
+  margin: 0 auto;
+}
+
+.cta-section .btn-gold,
+.cta-section .btn-gold:hover {
+  box-shadow: none;
 }
 
 .cta-section h2 {
@@ -1040,6 +1115,10 @@ body.modal-open {
 }
 
 @media (max-width: 640px) {
+  .hero-panel {
+    padding: 24px 20px 28px;
+  }
+
   .feature-grid,
   .steps,
   .stats-row {

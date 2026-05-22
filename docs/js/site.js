@@ -224,8 +224,8 @@ function initGsap() {
         "-=0.25"
       )
     gsap.to(".hero-glow", {
-      opacity: 0.85,
-      scale: 1.05,
+      opacity: 0.75,
+      scale: 1.06,
       duration: 4,
       repeat: -1,
       yoyo: true,
