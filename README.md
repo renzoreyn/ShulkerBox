@@ -32,10 +32,10 @@
 
 Shulker Box copies the user data you pick from **C:\** into `backup/latest` next to the app. After the lab PC resets, hit **Unpack** and your stuff comes back.
 
-- **Built-in apps** — Chrome, Telegram, Cursor, VS Code, SSH, Git, wallpapers (toggle ON/OFF per tile).
-- **Custom folders** — any path you add (projects, saves, game mods, etc.).
-- **Windows settings** — registry + display language on every pack (see the settings row in the UI).
-- **Stats bar** — how many items are in the chest, total chest size, and when you last packed.
+- **Built-in apps** - Chrome, Telegram, Cursor, VS Code, SSH, Git, wallpapers (toggle ON/OFF per tile).
+- **Custom folders** - any path you add (projects, saves, game mods, etc.).
+- **Windows settings** - registry + display language on every pack (see the settings row in the UI).
+- **Stats bar** - how many items are in the chest, total chest size, and when you last packed.
 
 Click a tile to select it, click again to toggle ON/OFF. Green = ON, red = OFF, gold dot = already in the chest.
 
@@ -61,7 +61,7 @@ First launch needs internet once (fonts + app icons). Your backups and settings 
 
 1. Click **+ Add custom folder** under the app row.
 2. Enter a **name** and **path** (e.g. `D:\Projects`).
-3. **Pack Items** — data goes to `backup/latest/folders/custom-…/`.
+3. **Pack Items** - data goes to `backup/latest/folders/custom-…/`.
 4. A **`shulkerbox-source.txt`** file is written in that chest folder **before** the copy, with the original path so **Unpack** knows where to restore even if you move the install or edit `custom_folders.json` later.
 
 To remove a custom entry from the list (not your real files), select it and use **Remove custom**.
@@ -106,9 +106,9 @@ Tip: use **Scan** before packing if something is still running and blocking a co
 
 No source code in this public repo. Roughly:
 
-- **Pack** — `robocopy` for folders, `reg export` for registry, PowerShell for language lists.
-- **Unpack** — restores folders to the same paths; custom items use `shulkerbox-source.txt` from the chest.
-- **GUI** — local web UI in an Edge app window (no Python on the target PC).
+- **Pack** - `robocopy` for folders, `reg export` for registry, PowerShell for language lists.
+- **Unpack** - restores folders to the same paths; custom items use `shulkerbox-source.txt` from the chest.
+- **GUI** - local web UI in an Edge app window (no Python on the target PC).
 
 <details>
 <summary>Example: custom folder marker in the chest</summary>
@@ -139,7 +139,7 @@ So you know how large the portable backup is before copying it to a USB or lab d
 
 ---
 
-## For maintainers — build & GitHub release
+## For maintainers - build & GitHub release
 
 Full source stays on your dev machine. The public repo is a landing page (README, [CHANGELOG.md](CHANGELOG.md), LICENSE, images) plus **Releases** zips only.
 
@@ -150,7 +150,7 @@ Full source stays on your dev machine. The public repo is a landing page (README
 - `pip install pyinstaller` (or let `build-portable.bat` install it)  
 - [GitHub CLI](https://cli.github.com/) (`gh auth login`) optional but handy  
 
-### Step 1 — Build the portable exe
+### Step 1 - Build the portable exe
 
 ```bat
 cd /d D:\ShulkerBox
@@ -171,7 +171,7 @@ Or dev UI without rebuilding:
 run-gui.bat
 ```
 
-### Step 2 — Package release files
+### Step 2 - Package release files
 
 ```bat
 make-release.bat
@@ -188,7 +188,7 @@ This syncs the web UI into the portable tree and creates:
 
 Bump version in `make-release.bat` / `scripts\package_release.py` when you ship a new tag.
 
-### Step 3 — Update public repo (README + changelog)
+### Step 3 - Update public repo (README + changelog)
 
 ```bat
 setup-github-assets.bat
@@ -207,7 +207,7 @@ git push -u origin main
 
 (Use your normal workflow if the repo already exists.)
 
-### Step 4 — Create GitHub Release
+### Step 4 - Create GitHub Release
 
 **In the browser**
 
@@ -231,7 +231,7 @@ gh release create v1.0.3 ^
   --notes-file "release\ShulkerBox-1.0.3-RELEASE_NOTES.md"
 ```
 
-### Step 5 — Upgrade your own install
+### Step 5 - Upgrade your own install
 
 1. Do **not** delete `backup\`, `enabled.json`, or `custom_folders.json`.  
 2. Extract the new zip over your install (or copy `ShulkerBox.exe` + `_internal` + `tools`).  
