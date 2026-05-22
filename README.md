@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://static.wikia.nocookie.net/minecraft-mob/images/d/d1/150px-Shulker_Open.png" width="72" alt="Shulker Box" />
+  <img src="https://creatorlabs.net/wp-content/uploads/2023/12/shulker.gif" width="72" alt="Shulker Box" />
 </p>
 
 <h1 align="center">Shulker Box</h1>
