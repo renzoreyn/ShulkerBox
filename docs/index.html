@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Shulker Box — portable Windows backup before lab PCs wipe C:\. Pack Chrome, Telegram, Cursor, custom folders, and restore after reboot." />
+  <meta name="theme-color" content="#070709" />
+  <title>Shulker Box — Pack before C:\ gets wiped</title>
+  <link rel="icon" href="images/favicon.png" type="image/png" />
+  <link rel="stylesheet" href="css/site.css" />
+</head>
+<body>
+  <nav class="site-nav" id="site-nav" aria-label="Primary">
+    <div class="nav-inner">
+      <a class="nav-brand" href="#top">
+        <img class="nav-logo" src="images/logo.png" alt="" width="36" height="36"
+          onerror="this.remove()" />
+        <span>Shulker Box</span>
+      </a>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#features">Features</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#releases">Releases</a>
+        <a href="#changelog">Changelog</a>
+      </div>
+      <a class="btn btn-gold btn-sm" href="#download">
+        <i data-lucide="download"></i>
+        Download
+      </a>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow reveal">
+          <i data-lucide="sparkles"></i>
+          For lab PCs &amp; shared Windows
+        </p>
+        <h1 class="reveal">
+          Pack before
+          <span class="line2">C:\ gets wiped.</span>
+        </h1>
+        <p class="hero-sub reveal">
+          Shulker Box copies the profiles you care about — Chrome, Telegram, Cursor, VS Code, SSH, Git, wallpapers, and <strong>any folder you add</strong> — onto a drive that survives every reboot.
+        </p>
+        <div class="hero-actions reveal">
+          <a class="btn btn-gold" href="https://github.com/renzoreyn/ShulkerBox/releases/latest" target="_blank" rel="noopener">
+            <i data-lucide="download"></i>
+            Download latest <span data-latest-version>v1.0.3</span>
+          </a>
+          <a class="btn btn-ghost" href="#workflow">
+            <i data-lucide="play-circle"></i>
+            See how it works
+          </a>
+        </div>
+        <div class="hero-meta reveal">
+          <span><i data-lucide="monitor"></i> Windows portable</span>
+          <span><i data-lucide="hard-drive"></i> No Python on the lab PC</span>
+          <span><i data-lucide="shield-check"></i> Keeps backup/ on update</span>
+        </div>
+      </div>
+      <div class="hero-visual reveal">
+        <div class="app-mock" aria-hidden="true">
+          <div class="mock-titlebar">
+            <img src="images/logo.png" alt="" width="28" height="28" onerror="this.remove()" />
+            <strong>Shulker Box</strong>
+            <span class="mock-badge" data-latest-version>v1.0.3</span>
+          </div>
+          <div class="mock-body">
+            <div class="mock-stats">
+              <div class="mock-pill">Packed<strong>5</strong></div>
+              <div class="mock-pill">Total<strong>8</strong></div>
+              <div class="mock-pill">Chest<strong>2.4 GB</strong></div>
+            </div>
+            <div class="mock-grid">
+              <div class="mock-tile on"><span>ON</span></div>
+              <div class="mock-tile on"><span>ON</span></div>
+              <div class="mock-tile off"><span>OFF</span></div>
+              <div class="mock-tile on"><span>ON</span></div>
+              <div class="mock-tile on"><span>ON</span></div>
+              <div class="mock-tile on"><span>ON</span></div>
+              <div class="mock-tile off"><span>OFF</span></div>
+              <div class="mock-tile on"><span>ON</span></div>
+            </div>
+            <button type="button" class="mock-pack" tabindex="-1">Pack Items</button>
+          </div>
+        </div>
+        <img class="hero-shot" src="images/screenshot.png" alt="Shulker Box app screenshot" width="620" height="auto"
+          onerror="this.style.display='none'" />
+      </div>
+    </div>
+  </header>
+
+  <section class="stats-band" aria-label="Highlights">
+    <div class="stats-row">
+      <div class="stat-item reveal">
+        <strong>7+</strong>
+        <span>Built-in apps &amp; profiles</span>
+      </div>
+      <div class="stat-item reveal">
+        <strong>0</strong>
+        <span>Install steps on the lab PC</span>
+      </div>
+      <div class="stat-item reveal">
+        <strong>1</strong>
+        <span>Chest folder (`backup/latest`)</span>
+      </div>
+      <div class="stat-item reveal">
+        <strong>∞</strong>
+        <span>Custom folders you choose</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="section-inner">
+      <p class="section-kicker reveal"><i data-lucide="package"></i> About Shulker Box</p>
+      <h2 class="section-title reveal">
+        Your chest on <span class="accent">D:\</span>,<br />not on fragile C:\.
+      </h2>
+      <p class="section-lead reveal">
+        School and lab machines often reset <code>C:\Users\…</code> every session. Shulker Box is a small portable app you keep on a USB stick or network drive — pack before logout, unpack when you're back.
+      </p>
+      <div class="about-grid">
+        <div class="about-panel reveal">
+          <h3><i data-lucide="box"></i> What it backs up</h3>
+          <ul>
+            <li><i data-lucide="check"></i> Chrome, Telegram, Cursor, VS Code profiles</li>
+            <li><i data-lucide="check"></i> SSH keys, Git config, wallpapers</li>
+            <li><i data-lucide="check"></i> Custom folders (projects, saves, mods)</li>
+            <li><i data-lucide="check"></i> Windows registry + display language</li>
+          </ul>
+        </div>
+        <div class="about-panel reveal">
+          <h3><i data-lucide="folder-archive"></i> Where data lives</h3>
+          <ul>
+            <li><i data-lucide="check"></i> <code>backup/latest/</code> next to the app</li>
+            <li><i data-lucide="check"></i> <code>enabled.json</code> — which apps are ON</li>
+            <li><i data-lucide="check"></i> <code>custom_folders.json</code> — your extra paths</li>
+            <li><i data-lucide="check"></i> In-app updates keep your chest safe</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="features" style="background: var(--bg-elevated);">
+    <div class="section-inner">
+      <p class="section-kicker reveal"><i data-lucide="layout-grid"></i> What it does</p>
+      <h2 class="section-title reveal">
+        Every app.<br /><span class="accent">One chest.</span>
+      </h2>
+      <p class="section-lead reveal">
+        Toggle ON/OFF per tile, pack in one click, and see exactly what's already in the chest.
+      </p>
+      <div class="feature-grid">
+        <article class="feature-card reveal">
+          <div class="feature-icon"><i data-lucide="toggle-right"></i></div>
+          <h3>Per-app toggles</h3>
+          <p>Green ON, red OFF, gold dot when already packed. Click to select, click again to flip.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-icon"><i data-lucide="folder-plus"></i></div>
+          <h3>Custom folders</h3>
+          <p>Browse with the Windows Explorer picker. Paths restore via <code>shulkerbox-source.txt</code> in the chest.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-icon"><i data-lucide="bar-chart-3"></i></div>
+          <h3>Stats &amp; sizes</h3>
+          <p>Packed count, total chest size, and per-item source vs in-chest sizes in the detail panel.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-icon"><i data-lucide="settings-2"></i></div>
+          <h3>Windows settings</h3>
+          <p>Registry and display-language backup on every pack — collapsible status row in the UI.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-icon"><i data-lucide="package-open"></i></div>
+          <h3>Pack &amp; unpack</h3>
+          <p>Close running apps (optional), copy to the chest, or restore after a fresh C:\ login.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-icon"><i data-lucide="refresh-cw"></i></div>
+          <h3>In-app updates</h3>
+          <p>Check GitHub Releases from the app. Download, restart, and keep <code>backup/</code> + config.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="workflow">
+    <div class="section-inner">
+      <p class="section-kicker reveal"><i data-lucide="route"></i> Workflow</p>
+      <h2 class="section-title reveal">
+        Three minutes.<br /><span class="accent">Zero surprises.</span>
+      </h2>
+      <p class="section-lead reveal">
+        Built for the rhythm of shared PCs: pack before the bell, unpack when you sit down again.
+      </p>
+      <div class="steps">
+        <article class="step-card reveal">
+          <div class="step-num">01</div>
+          <h3>Extract portable zip</h3>
+          <p>Put the folder on <code>D:\</code> or USB — anywhere that survives reboot.</p>
+        </article>
+        <article class="step-card reveal">
+          <div class="step-num">02</div>
+          <h3>Toggle &amp; pack</h3>
+          <p>Turn apps ON, add custom folders, hit <strong>Pack Items</strong> before logout.</p>
+        </article>
+        <article class="step-card reveal">
+          <div class="step-num">03</div>
+          <h3>Reboot happens</h3>
+          <p>Lab wipes C:\. Your chest on the other drive is untouched.</p>
+        </article>
+        <article class="step-card reveal">
+          <div class="step-num">04</div>
+          <h3>Unpack &amp; go</h3>
+          <p>Run Shulker Box again, <strong>Unpack</strong>, and continue where you left off.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="releases">
+    <div class="section-inner">
+      <p class="section-kicker reveal"><i data-lucide="tag"></i> Releases</p>
+      <h2 class="section-title reveal">
+        Download builds<br /><span class="accent">from GitHub.</span>
+      </h2>
+      <p class="section-lead reveal">
+        Portable Windows zip — extract and run <code>ShulkerBox.exe</code>. No installer, no admin required for a typical lab session.
+      </p>
+      <div id="releases-status" class="loading-block">
+        <i data-lucide="loader-circle"></i>
+        <p>Loading releases from GitHub…</p>
+      </div>
+      <div id="releases-list" class="releases-grid" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="section changelog-unreleased" id="changelog" style="background: var(--bg-elevated);">
+    <div class="section-inner">
+      <p class="section-kicker reveal">
+        <i data-lucide="scroll-text"></i> Changelog
+        <span class="live-badge">Live from CHANGELOG.md</span>
+      </p>
+      <h2 class="section-title reveal">
+        Ship notes<br /><span class="accent">as you release.</span>
+      </h2>
+      <p class="section-lead reveal">
+        This page fetches <a href="CHANGELOG.md">CHANGELOG.md</a> from the repo — same file you edit before each GitHub Release.
+      </p>
+      <div class="changelog-layout">
+        <nav id="changelog-nav" class="changelog-nav reveal" aria-label="Changelog versions"></nav>
+        <div>
+          <div id="changelog-status" class="loading-block">
+            <i data-lucide="loader-circle"></i>
+            <p>Loading changelog…</p>
+          </div>
+          <div id="changelog-feed" class="changelog-feed" aria-live="polite"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section" id="download">
+    <h2 class="reveal">Stop losing your profile.<br />Start packing.</h2>
+    <p class="reveal">
+      Free to download. Proprietary license — see the repo for terms. Made for students and anyone stuck with wiped lab drives.
+    </p>
+    <div class="cta-actions reveal">
+      <a class="btn btn-gold" href="https://github.com/renzoreyn/ShulkerBox/releases/latest" target="_blank" rel="noopener">
+        <i data-lucide="download"></i>
+        Get Shulker Box
+      </a>
+      <a class="btn btn-ghost" href="https://github.com/renzoreyn/ShulkerBox" target="_blank" rel="noopener">
+        <i data-lucide="github"></i>
+        View repository
+      </a>
+      <a class="btn btn-ghost" href="https://github.com/renzoreyn" target="_blank" rel="noopener">
+        <i data-lucide="user"></i>
+        @renzoreyn
+      </a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <p>
+      Shulker Box · <a href="https://github.com/renzoreyn/ShulkerBox">GitHub</a> ·
+      <a href="CHANGELOG.md">Changelog</a> ·
+      <a href="https://github.com/renzoreyn/ShulkerBox/blob/main/LICENSE">License</a>
+    </p>
+    <p style="margin-top:8px;opacity:0.75">Not affiliated with Mojang / Microsoft. “Shulker” is a Minecraft reference — this app just packs your stuff.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="js/changelog.js"></script>
+  <script src="js/site.js"></script>
+</body>
+</html>
