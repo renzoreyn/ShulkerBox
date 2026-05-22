@@ -1,4 +1,4 @@
-/** ShulkerBox landing — GSAP + Lucide */
+/** ShulkerBox landing: GSAP + Lucide */
 
 const SB = {
   repo: "renzoreyn/ShulkerBox",
@@ -149,10 +149,10 @@ function initGsap() {
         "-=0.25"
       )
       .fromTo(
-        ".hero-visual",
-        { opacity: 0, scale: 0.96, y: 30 },
-        { opacity: 1, scale: 1, y: 0, duration: 0.8 },
-        "-=0.5"
+        ".hero-shot",
+        { opacity: 0, scale: 0.98, y: 24 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.75 },
+        "-=0.35"
       );
 
     gsap.to(".hero-glow", {
@@ -248,8 +248,6 @@ function setLatestVersionBadge() {
       document.querySelectorAll("[data-latest-version]").forEach((el) => {
         el.textContent = latest.replace(/^v/i, "v");
       });
-      const mockBadge = document.querySelector(".mock-badge");
-      if (mockBadge) mockBadge.textContent = latest.replace(/^v/i, "v");
     })
     .catch(() => {});
 }

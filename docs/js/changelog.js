@@ -3,7 +3,19 @@
 const Changelog = (() => {
   const CHANGELOG_URLS = ["CHANGELOG.md", "../CHANGELOG.md"];
 
+  /** No em/en dashes on the marketing site. */
+  function plainText(text) {
+    return String(text)
+      .replace(/`—`/g, "`-`")
+      .replace(/`\u2014`/g, "`-`")
+      .replace(/\u2014/g, ": ")
+      .replace(/\u2013/g, ", ")
+      .replace(/—/g, ": ")
+      .replace(/–/g, ", ");
+  }
+
   function parseMarkdown(md) {
+    md = plainText(md);
     const entries = [];
     const blocks = md.split(/\n## \[/).slice(1);
 
@@ -51,7 +63,8 @@ const Changelog = (() => {
 
   function renderItem(html) {
     const li = document.createElement("li");
-    li.innerHTML = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+    const safe = plainText(html);
+    li.innerHTML = safe.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
     return li;
   }
 

@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Shulker Box — portable Windows backup before lab PCs wipe C:\. Pack Chrome, Telegram, Cursor, custom folders, and restore after reboot." />
+  <meta name="description" content="Shulker Box: portable Windows backup before lab PCs wipe C:\. Pack Chrome, Telegram, Cursor, custom folders, and restore after reboot." />
   <meta name="theme-color" content="#070709" />
-  <title>Shulker Box — Pack before C:\ gets wiped</title>
+  <title>Shulker Box | Pack before C:\ gets wiped</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&display=swap" rel="stylesheet" />
@@ -18,7 +18,7 @@
   <nav class="site-nav" id="site-nav" aria-label="Primary">
     <div class="nav-inner">
       <a class="nav-brand" href="#top" aria-label="Shulker Box home">
-        <img class="nav-logo" src="images/logo.png" alt="Shulker Box" width="200" height="42" />
+        <img class="nav-logo" src="images/logo.png" alt="Shulker Box" width="280" height="56" />
       </a>
       <div class="nav-links">
         <a href="#about">About</a>
@@ -37,7 +37,7 @@
   <header class="hero" id="top">
     <div class="hero-glow" aria-hidden="true"></div>
     <div class="hero-grid" aria-hidden="true"></div>
-    <div class="hero-inner">
+    <div class="hero-inner hero-inner--stack">
       <div class="hero-copy">
         <p class="eyebrow reveal">
           <i data-lucide="sparkles"></i>
@@ -66,35 +66,10 @@
           <span><i data-lucide="shield-check"></i> Keeps backup/ on update</span>
         </div>
       </div>
-      <div class="hero-visual reveal">
-        <div class="app-mock" aria-hidden="true">
-          <div class="mock-titlebar">
-            <img src="images/logo.png" alt="" width="28" height="28" onerror="this.remove()" />
-            <strong>Shulker Box</strong>
-            <span class="mock-badge" data-latest-version>v1.0.3</span>
-          </div>
-          <div class="mock-body">
-            <div class="mock-stats">
-              <div class="mock-pill">Packed<strong>5</strong></div>
-              <div class="mock-pill">Total<strong>8</strong></div>
-              <div class="mock-pill">Chest<strong>2.4 GB</strong></div>
-            </div>
-            <div class="mock-grid">
-              <div class="mock-tile on"><span>ON</span></div>
-              <div class="mock-tile on"><span>ON</span></div>
-              <div class="mock-tile off"><span>OFF</span></div>
-              <div class="mock-tile on"><span>ON</span></div>
-              <div class="mock-tile on"><span>ON</span></div>
-              <div class="mock-tile on"><span>ON</span></div>
-              <div class="mock-tile off"><span>OFF</span></div>
-              <div class="mock-tile on"><span>ON</span></div>
-            </div>
-            <button type="button" class="mock-pack" tabindex="-1">Pack Items</button>
-          </div>
-        </div>
-        <img class="hero-shot" src="images/screenshot.png" alt="Shulker Box app screenshot" width="620" height="auto"
-          onerror="this.style.display='none'" />
-      </div>
+      <figure class="hero-visual reveal">
+        <img class="hero-shot" src="images/screenshot.png" alt="Shulker Box app screenshot" width="720" height="auto"
+          onerror="this.closest('.hero-visual')?.classList.add('hidden')" />
+      </figure>
     </div>
   </header>
 
@@ -236,7 +211,7 @@
         Download builds<br /><span class="accent">from GitHub.</span>
       </h2>
       <p class="section-lead reveal">
-        Portable Windows zip — extract and run <code>ShulkerBox.exe</code>. No installer, no admin required for a typical lab session.
+        Portable Windows zip: extract and run <code>ShulkerBox.exe</code>. No installer, no admin required for a typical lab session.
       </p>
       <div id="releases-status" class="loading-block">
         <i data-lucide="loader-circle"></i>
