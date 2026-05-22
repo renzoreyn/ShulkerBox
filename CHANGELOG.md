@@ -55,7 +55,7 @@ Downloads: [GitHub Releases](https://github.com/renzoreyn/ShulkerBox/releases)
 
 ---
 
-## [1.0.1] - 2026-05-22
+## [1.0.1] (Deprecated) - 2026-05-22
 
 QoL UI update (pre-updater polish).
 
