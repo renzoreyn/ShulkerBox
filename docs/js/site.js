@@ -144,10 +144,22 @@ async function loadReleases() {
         </div>
         <div class="release-actions">
           ${portable ? `<a class="btn btn-gold btn-sm" href="${portable.browser_download_url}" download><i data-lucide="download"></i> Portable zip</a>` : ""}
+          <button type="button" class="btn btn-outline btn-sm js-release-changelog" data-version="${tag}">
+            <i data-lucide="scroll-text"></i> Changelog
+          </button>
           <a class="btn btn-ghost btn-sm" href="${rel.html_url}" target="_blank" rel="noopener"><i data-lucide="external-link"></i> Release</a>
         </div>
       `;
       container.appendChild(card);
+    });
+
+    container.querySelectorAll(".js-release-changelog").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const version = btn.dataset.version;
+        if (version && window.Changelog) {
+          Changelog.openVersion(version, window.changelogMount);
+        }
+      });
     });
 
     initLucide();
@@ -289,19 +301,18 @@ function setLatestVersionBadge() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  initLucide();
-  initUnselectable();
-  initContextMenu();
-  initNav();
-  setLatestVersionBadge();
-  loadReleases();
-
-  const changelogMount = {
+  window.changelogMount = {
     feedEl: document.getElementById("changelog-feed"),
     navEl: document.getElementById("changelog-nav"),
     statusEl: document.getElementById("changelog-status"),
   };
 
-  Changelog.initModal({ mountOpts: changelogMount, preload: true });
+  initLucide();
+  initUnselectable();
+  initContextMenu();
+  initNav();
+  Changelog.initModal({ mountOpts: window.changelogMount, preload: true });
+  setLatestVersionBadge();
+  loadReleases();
   initGsap();
 });

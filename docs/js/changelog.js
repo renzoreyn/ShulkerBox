@@ -1,13 +1,16 @@
-/** Parse CHANGELOG.md and show in a modal popup. */
+/** Parse CHANGELOG.md and show per-version notes in a modal. */
 
 const Changelog = (() => {
   const CHANGELOG_URLS = ["CHANGELOG.md", "../CHANGELOG.md"];
 
   let modalEl = null;
   let scrollRoot = null;
+  let navEl = null;
+  let titleEl = null;
   let lastFocus = null;
   let mounted = false;
   let mountPromise = null;
+  let entriesCache = [];
 
   function plainText(text) {
     return String(text)
@@ -54,6 +57,21 @@ const Changelog = (() => {
     return entries;
   }
 
+  function normalizeVersion(v) {
+    return String(v || "")
+      .replace(/^v/i, "")
+      .trim();
+  }
+
+  function entryId(version) {
+    return `changelog-${version.replace(/\s+/g, "-").toLowerCase()}`;
+  }
+
+  function findEntry(version) {
+    const key = normalizeVersion(version);
+    return entriesCache.find((e) => normalizeVersion(e.version) === key);
+  }
+
   async function fetchMarkdown() {
     for (const url of CHANGELOG_URLS) {
       try {
@@ -66,20 +84,11 @@ const Changelog = (() => {
     throw new Error("Could not load CHANGELOG.md");
   }
 
-  function entryId(version) {
-    return `changelog-${version.replace(/\s+/g, "-").toLowerCase()}`;
-  }
-
   function scrollToVersion(version) {
     const el = document.getElementById(entryId(version));
-    if (!el) return;
-    const root = scrollRoot || el.parentElement;
-    if (root && root.scrollHeight > root.clientHeight) {
-      const top = el.offsetTop - root.offsetTop - 8;
-      root.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
-    } else {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    if (!el || !scrollRoot) return;
+    const top = el.offsetTop - scrollRoot.offsetTop - 8;
+    scrollRoot.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
   }
 
   function renderItem(html) {
@@ -93,6 +102,7 @@ const Changelog = (() => {
     const article = document.createElement("article");
     article.className = "changelog-entry";
     article.id = entryId(entry.version);
+    article.dataset.version = entry.version;
     if (entry.version === "Unreleased") {
       article.classList.add("unreleased");
     }
@@ -131,7 +141,8 @@ const Changelog = (() => {
     return article;
   }
 
-  function renderNav(entries, navEl) {
+  function renderNav(entries) {
+    if (!navEl) return;
     navEl.innerHTML = "";
     for (const entry of entries) {
       const btn = document.createElement("button");
@@ -140,18 +151,56 @@ const Changelog = (() => {
         entry.version === "Unreleased" ? "Unreleased" : `v${entry.version}`;
       btn.dataset.version = entry.version;
       btn.addEventListener("click", () => {
-        navEl.querySelectorAll("button").forEach((b) => {
-          b.classList.toggle("active", b.dataset.version === entry.version);
-        });
-        scrollToVersion(entry.version);
+        showVersion(entry.version);
       });
       navEl.appendChild(btn);
     }
-    const first = navEl.querySelector("button");
-    if (first) first.classList.add("active");
   }
 
-  async function mount({ feedEl, navEl, statusEl }) {
+  function setActiveNav(version) {
+    if (!navEl) return;
+    const key = normalizeVersion(version);
+    navEl.querySelectorAll("button").forEach((b) => {
+      b.classList.toggle("active", normalizeVersion(b.dataset.version) === key);
+    });
+  }
+
+  function showVersion(version) {
+    if (!modalEl) return;
+    const key = normalizeVersion(version);
+    const entry = findEntry(version);
+
+    modalEl.classList.add("changelog-modal--single");
+    if (titleEl) {
+      titleEl.textContent = entry
+        ? entry.version === "Unreleased"
+          ? "Unreleased"
+          : `v${entry.version}`
+        : `v${key}`;
+    }
+
+    document.querySelectorAll(".changelog-entry").forEach((el) => {
+      const match = normalizeVersion(el.dataset.version) === key;
+      el.classList.toggle("hidden", !match);
+    });
+
+    setActiveNav(version);
+    if (scrollRoot) scrollRoot.scrollTop = 0;
+  }
+
+  function showAllVersions() {
+    if (!modalEl) return;
+    modalEl.classList.remove("changelog-modal--single");
+    if (titleEl) titleEl.textContent = "Changelog";
+    document.querySelectorAll(".changelog-entry").forEach((el) => {
+      el.classList.remove("hidden");
+    });
+    if (navEl) navEl.querySelectorAll("button").forEach((b) => b.classList.remove("active"));
+    if (scrollRoot) scrollRoot.scrollTop = 0;
+  }
+
+  async function mount({ feedEl, navEl: nav, statusEl }) {
+    navEl = nav || navEl;
     if (mounted) return mountPromise;
     mountPromise = (async () => {
       if (statusEl) {
@@ -163,24 +212,24 @@ const Changelog = (() => {
 
       try {
         const md = await fetchMarkdown();
-        const entries = parseMarkdown(md);
+        entriesCache = parseMarkdown(md);
         if (statusEl) statusEl.classList.add("hidden");
 
         feedEl.innerHTML = "";
         const frag = document.createDocumentFragment();
-        entries.forEach((entry) => {
+        entriesCache.forEach((entry) => {
           frag.appendChild(renderEntry(entry));
         });
         feedEl.appendChild(frag);
 
-        if (navEl) renderNav(entries, navEl);
+        renderNav(entriesCache);
 
         mounted = true;
         document.dispatchEvent(
-          new CustomEvent("changelog:ready", { detail: { entries } })
+          new CustomEvent("changelog:ready", { detail: { entries: entriesCache } })
         );
         if (window.lucide) lucide.createIcons();
-        return entries;
+        return entriesCache;
       } catch (err) {
         if (statusEl) {
           statusEl.classList.remove("hidden");
@@ -197,6 +246,7 @@ const Changelog = (() => {
     modalEl.classList.remove("is-open");
     modalEl.setAttribute("aria-hidden", "true");
     document.body.classList.remove("modal-open");
+    showAllVersions();
     if (lastFocus && typeof lastFocus.focus === "function") {
       lastFocus.focus();
     }
@@ -214,12 +264,27 @@ const Changelog = (() => {
     if (window.lucide) lucide.createIcons();
   }
 
-  async function openAndLoad(mountOpts) {
+  async function openVersion(version, mountOpts) {
     open();
     try {
       await mount(mountOpts);
+      const feed = mountOpts?.feedEl;
+      feed?.querySelector(".changelog-missing")?.remove();
+
+      const entry = findEntry(version);
+      if (entry) {
+        showVersion(version);
+      } else {
+        modalEl?.classList.add("changelog-modal--single");
+        if (titleEl) titleEl.textContent = `v${normalizeVersion(version)}`;
+        feed?.querySelectorAll(".changelog-entry").forEach((el) => el.classList.add("hidden"));
+        const empty = document.createElement("p");
+        empty.className = "changelog-missing";
+        empty.textContent = `No CHANGELOG.md section for v${normalizeVersion(version)} yet. Check the GitHub release page for notes.`;
+        feed?.appendChild(empty);
+      }
     } catch {
-      /* error UI in modal */
+      /* error in modal */
     }
   }
 
@@ -228,6 +293,8 @@ const Changelog = (() => {
     if (!modalEl) return;
 
     scrollRoot = modalEl.querySelector(".changelog-modal-scroll");
+    navEl = modalEl.querySelector("#changelog-nav");
+    titleEl = document.getElementById("changelog-modal-title");
 
     modalEl.querySelectorAll("[data-changelog-close]").forEach((el) => {
       el.addEventListener("click", close);
@@ -237,16 +304,6 @@ const Changelog = (() => {
       if (ev.key === "Escape" && modalEl?.classList.contains("is-open")) {
         close();
       }
-    });
-
-    document.querySelectorAll(".js-open-changelog").forEach((trigger) => {
-      trigger.addEventListener("click", (ev) => {
-        const href = trigger.getAttribute("href");
-        if (href === "#changelog" || trigger.classList.contains("js-open-changelog")) {
-          ev.preventDefault();
-        }
-        openAndLoad(mountOpts);
-      });
     });
 
     if (mountOpts && preload) {
@@ -261,6 +318,9 @@ const Changelog = (() => {
     initModal,
     open,
     close,
-    openAndLoad,
+    openVersion,
+    showVersion,
+    showAllVersions,
+    findEntry,
   };
 })();

@@ -137,9 +137,9 @@ html::-webkit-scrollbar-button {
 }
 
 .nav-logo {
-  height: 100px;
+  height: 56px;
   width: auto;
-  max-width: min(300px, 100vw);
+  max-width: min(300px, 46vw);
   object-fit: contain;
   object-position: left center;
   filter: drop-shadow(0 0 12px var(--purple-glow));
@@ -210,6 +210,18 @@ html::-webkit-scrollbar-button {
 .btn-ghost:hover {
   border-color: var(--purple);
   background: rgba(163, 113, 163, 0.12);
+}
+
+.btn-outline {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-outline:hover {
+  border-color: var(--purple);
+  background: rgba(163, 113, 163, 0.14);
+  text-decoration: none;
 }
 
 .btn-sm {
@@ -384,17 +396,56 @@ html::-webkit-scrollbar-button {
 }
 
 .hero-visual {
+  position: relative;
   width: 100%;
   max-width: 720px;
   margin: 0 auto;
+  padding: 28px 12px 8px;
+}
+
+.hero-visual-glow {
+  position: absolute;
+  inset: 0 -8% -5%;
+  background:
+    radial-gradient(ellipse 85% 65% at 50% 35%, rgba(163, 113, 163, 0.42), transparent 68%),
+    radial-gradient(ellipse 70% 55% at 50% 95%, rgba(250, 204, 21, 0.14), transparent 72%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-visual-rays {
+  position: absolute;
+  top: -5%;
+  left: 50%;
+  width: 140%;
+  height: 75%;
+  transform: translateX(-50%);
+  background: conic-gradient(
+    from 200deg at 50% 100%,
+    transparent 0deg,
+    rgba(163, 113, 163, 0.22) 18deg,
+    transparent 36deg,
+    rgba(250, 204, 21, 0.1) 52deg,
+    transparent 70deg,
+    rgba(163, 113, 163, 0.16) 88deg,
+    transparent 110deg
+  );
+  filter: blur(36px);
+  opacity: 0.9;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .hero-shot {
+  position: relative;
+  z-index: 1;
   display: block;
   width: 100%;
   border-radius: var(--radius);
-  border: 1px solid var(--border);
-  box-shadow: 0 20px 56px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(163, 113, 163, 0.25);
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.5),
+    0 0 80px rgba(163, 113, 163, 0.15);
 }
 
 /* Feature cards */
@@ -608,6 +659,19 @@ html::-webkit-scrollbar-button {
   flex-wrap: wrap;
   gap: 8px;
   justify-content: flex-end;
+  align-items: center;
+}
+
+@media (max-width: 720px) {
+  .release-card {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .release-actions {
+    justify-content: flex-start;
+    width: 100%;
+  }
 }
 
 .loading-block {
@@ -719,6 +783,25 @@ html::-webkit-scrollbar-button {
 .changelog-modal-close svg {
   width: 20px;
   height: 20px;
+}
+
+.changelog-modal--single .changelog-layout {
+  grid-template-columns: 1fr;
+}
+
+.changelog-modal--single .changelog-nav {
+  display: none;
+}
+
+.changelog-modal--single .changelog-entry h3 {
+  margin-top: 0;
+}
+
+.changelog-missing {
+  padding: 20px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
 }
 
 .changelog-modal-body {
@@ -842,7 +925,9 @@ body.modal-open {
 .cta-section {
   text-align: center;
   padding: 100px 24px;
-  background: radial-gradient(ellipse 80% 60% at 50% 100%, var(--purple-glow), transparent 70%);
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 100%, var(--purple-glow), transparent 72%),
+    radial-gradient(ellipse 50% 40% at 50% 0%, rgba(250, 204, 21, 0.06), transparent 70%);
 }
 
 .cta-section h2 {
