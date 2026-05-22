@@ -12,10 +12,8 @@
 <body>
   <nav class="site-nav" id="site-nav" aria-label="Primary">
     <div class="nav-inner">
-      <a class="nav-brand" href="#top">
-        <img class="nav-logo" src="images/logo.png" alt="" width="36" height="36"
-          onerror="this.remove()" />
-        <span>Shulker Box</span>
+      <a class="nav-brand" href="#top" aria-label="Shulker Box home">
+        <img class="nav-logo" src="images/logo.png" alt="Shulker Box" width="200" height="42" />
       </a>
       <div class="nav-links">
         <a href="#about">About</a>
@@ -45,7 +43,7 @@
           <span class="line2">C:\ gets wiped.</span>
         </h1>
         <p class="hero-sub reveal">
-          Shulker Box copies the profiles you care about — Chrome, Telegram, Cursor, VS Code, SSH, Git, wallpapers, and <strong>any folder you add</strong> — onto a drive that survives every reboot.
+          Shulker Box copies the profiles you care about: Chrome, Telegram, Cursor, VS Code, SSH, Git, wallpapers, and <strong>any folder you add</strong>, onto a drive that survives every reboot.
         </p>
         <div class="hero-actions reveal">
           <a class="btn btn-gold" href="https://github.com/renzoreyn/ShulkerBox/releases/latest" target="_blank" rel="noopener">
@@ -123,7 +121,7 @@
         Your chest on <span class="accent">D:\</span>,<br />not on fragile C:\.
       </h2>
       <p class="section-lead reveal">
-        School and lab machines often reset <code>C:\Users\…</code> every session. Shulker Box is a small portable app you keep on a USB stick or network drive — pack before logout, unpack when you're back.
+        School and lab machines often reset <code>C:\Users\…</code> every session. Shulker Box is a small portable app you keep on a USB stick or network drive. Pack before logout, unpack when you're back.
       </p>
       <div class="about-grid">
         <div class="about-panel reveal">
@@ -139,8 +137,8 @@
           <h3><i data-lucide="folder-archive"></i> Where data lives</h3>
           <ul>
             <li><i data-lucide="check"></i> <code>backup/latest/</code> next to the app</li>
-            <li><i data-lucide="check"></i> <code>enabled.json</code> — which apps are ON</li>
-            <li><i data-lucide="check"></i> <code>custom_folders.json</code> — your extra paths</li>
+            <li><i data-lucide="check"></i> <code>enabled.json</code> (which apps are ON)</li>
+            <li><i data-lucide="check"></i> <code>custom_folders.json</code> (your extra paths)</li>
             <li><i data-lucide="check"></i> In-app updates keep your chest safe</li>
           </ul>
         </div>
@@ -176,7 +174,7 @@
         <article class="feature-card reveal">
           <div class="feature-icon"><i data-lucide="settings-2"></i></div>
           <h3>Windows settings</h3>
-          <p>Registry and display-language backup on every pack — collapsible status row in the UI.</p>
+          <p>Registry and display-language backup on every pack. Collapsible status row in the UI.</p>
         </article>
         <article class="feature-card reveal">
           <div class="feature-icon"><i data-lucide="package-open"></i></div>
@@ -205,7 +203,7 @@
         <article class="step-card reveal">
           <div class="step-num">01</div>
           <h3>Extract portable zip</h3>
-          <p>Put the folder on <code>D:\</code> or USB — anywhere that survives reboot.</p>
+          <p>Put the folder on <code>D:\</code> or USB, anywhere that survives reboot.</p>
         </article>
         <article class="step-card reveal">
           <div class="step-num">02</div>
@@ -253,7 +251,7 @@
         Ship notes<br /><span class="accent">as you release.</span>
       </h2>
       <p class="section-lead reveal">
-        This page fetches <a href="CHANGELOG.md">CHANGELOG.md</a> from the repo — same file you edit before each GitHub Release.
+        This page fetches <a href="CHANGELOG.md">CHANGELOG.md</a> from the repo, the same file you edit before each GitHub Release.
       </p>
       <div class="changelog-layout">
         <nav id="changelog-nav" class="changelog-nav reveal" aria-label="Changelog versions"></nav>
@@ -271,7 +269,7 @@
   <section class="cta-section" id="download">
     <h2 class="reveal">Stop losing your profile.<br />Start packing.</h2>
     <p class="reveal">
-      Free to download. Proprietary license — see the repo for terms. Made for students and anyone stuck with wiped lab drives.
+      Free to download. Proprietary license. See the repo for terms. Made for students and anyone stuck with wiped lab drives.
     </p>
     <div class="cta-actions reveal">
       <a class="btn btn-gold" href="https://github.com/renzoreyn/ShulkerBox/releases/latest" target="_blank" rel="noopener">
@@ -290,12 +288,17 @@
   </section>
 
   <footer class="site-footer">
-    <p>
-      Shulker Box · <a href="https://github.com/renzoreyn/ShulkerBox">GitHub</a> ·
-      <a href="CHANGELOG.md">Changelog</a> ·
-      <a href="https://github.com/renzoreyn/ShulkerBox/blob/main/LICENSE">License</a>
+    <p class="footer-credits">
+      Made by <a href="https://github.com/renzoreyn" target="_blank" rel="noopener noreferrer">@renzoreyn</a>
     </p>
-    <p style="margin-top:8px;opacity:0.75">Not affiliated with Mojang / Microsoft. “Shulker” is a Minecraft reference — this app just packs your stuff.</p>
+    <p class="footer-links">
+      <a href="https://github.com/renzoreyn/ShulkerBox" target="_blank" rel="noopener">GitHub</a>
+      ·
+      <a href="CHANGELOG.md">Changelog</a>
+      ·
+      <a href="https://github.com/renzoreyn/ShulkerBox/blob/main/LICENSE" target="_blank" rel="noopener">License</a>
+    </p>
+    <p class="footer-note">Not affiliated with Mojang or Microsoft. &ldquo;Shulker&rdquo; is a Minecraft reference. This app just packs your stuff.</p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
