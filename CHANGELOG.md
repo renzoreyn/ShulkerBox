@@ -5,9 +5,9 @@ All notable changes to **Shulker Box** are documented here.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).  
 Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html) (`MAJOR.MINOR.PATCH`).
 
-## [1.0.3] - 2026-05-22
+## [1.0.3] - Coming Soon!
 
-[Release](https://github.com/renzoreyn/ShulkerBox/releases/tag/v1.0.3)
+N/A
 
 ### Added
 
