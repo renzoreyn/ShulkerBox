@@ -4,13 +4,6 @@ All notable changes to **Shulker Box** are documented here.
 
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).  
 Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html) (`MAJOR.MINOR.PATCH`).
-
-**How to use this file**
-
-- Add new bullets under **`[Unreleased]`** as you commit.
-- When you ship a GitHub Release, move those bullets into a new `## [x.y.z] - YYYY-MM-DD` section and clear `[Unreleased]`.
-- Match the release tag (`v1.0.2`) and attach `ShulkerBox-*-windows-portable.zip` + `ShulkerBox-*-update.json`.
-
 Downloads: [GitHub Releases](https://github.com/renzoreyn/ShulkerBox/releases)
 
 ---
