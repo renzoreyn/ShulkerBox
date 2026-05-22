@@ -1,9 +1,14 @@
-/** Parse CHANGELOG.md and render live feed (fetched from repo on GitHub Pages). */
+/** Parse CHANGELOG.md and show in a modal popup. */
 
 const Changelog = (() => {
   const CHANGELOG_URLS = ["CHANGELOG.md", "../CHANGELOG.md"];
 
-  /** No em/en dashes on the marketing site. */
+  let modalEl = null;
+  let scrollRoot = null;
+  let lastFocus = null;
+  let mounted = false;
+  let mountPromise = null;
+
   function plainText(text) {
     return String(text)
       .replace(/`—`/g, "`-`")
@@ -61,6 +66,22 @@ const Changelog = (() => {
     throw new Error("Could not load CHANGELOG.md");
   }
 
+  function entryId(version) {
+    return `changelog-${version.replace(/\s+/g, "-").toLowerCase()}`;
+  }
+
+  function scrollToVersion(version) {
+    const el = document.getElementById(entryId(version));
+    if (!el) return;
+    const root = scrollRoot || el.parentElement;
+    if (root && root.scrollHeight > root.clientHeight) {
+      const top = el.offsetTop - root.offsetTop - 8;
+      root.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+    } else {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
   function renderItem(html) {
     const li = document.createElement("li");
     const safe = plainText(html);
@@ -68,10 +89,10 @@ const Changelog = (() => {
     return li;
   }
 
-  function renderEntry(entry, { active } = {}) {
+  function renderEntry(entry) {
     const article = document.createElement("article");
-    article.className = "changelog-entry reveal";
-    article.id = `changelog-${entry.version.replace(/\s+/g, "-").toLowerCase()}`;
+    article.className = "changelog-entry";
+    article.id = entryId(entry.version);
     if (entry.version === "Unreleased") {
       article.classList.add("unreleased");
     }
@@ -107,11 +128,10 @@ const Changelog = (() => {
       article.appendChild(ul);
     }
 
-    if (active) article.classList.add("active-entry");
     return article;
   }
 
-  function renderNav(entries, navEl, onSelect) {
+  function renderNav(entries, navEl) {
     navEl.innerHTML = "";
     for (const entry of entries) {
       const btn = document.createElement("button");
@@ -120,56 +140,127 @@ const Changelog = (() => {
         entry.version === "Unreleased" ? "Unreleased" : `v${entry.version}`;
       btn.dataset.version = entry.version;
       btn.addEventListener("click", () => {
-        onSelect(entry.version);
-        document
-          .getElementById(`changelog-${entry.version.replace(/\s+/g, "-").toLowerCase()}`)
-          ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        navEl.querySelectorAll("button").forEach((b) => {
+          b.classList.toggle("active", b.dataset.version === entry.version);
+        });
+        scrollToVersion(entry.version);
       });
       navEl.appendChild(btn);
     }
+    const first = navEl.querySelector("button");
+    if (first) first.classList.add("active");
   }
 
   async function mount({ feedEl, navEl, statusEl }) {
-    if (statusEl) {
-      statusEl.classList.remove("hidden");
-      statusEl.innerHTML =
-        '<i data-lucide="loader-circle"></i><p>Loading changelog…</p>';
-      if (window.lucide) lucide.createIcons();
-    }
-
-    try {
-      const md = await fetchMarkdown();
-      const entries = parseMarkdown(md);
-      if (statusEl) statusEl.classList.add("hidden");
-
-      feedEl.innerHTML = "";
-      const frag = document.createDocumentFragment();
-      entries.forEach((entry, i) => {
-        frag.appendChild(renderEntry(entry, { active: i === 0 }));
-      });
-      feedEl.appendChild(frag);
-
-      if (navEl) {
-        renderNav(entries, navEl, (version) => {
-          navEl.querySelectorAll("button").forEach((b) => {
-            b.classList.toggle("active", b.dataset.version === version);
-          });
-        });
-        const first = navEl.querySelector("button");
-        if (first) first.classList.add("active");
-      }
-
-      document.dispatchEvent(
-        new CustomEvent("changelog:ready", { detail: { entries } })
-      );
-      return entries;
-    } catch (err) {
+    if (mounted) return mountPromise;
+    mountPromise = (async () => {
       if (statusEl) {
-        statusEl.innerHTML = `<p>Changelog unavailable. <a href="https://github.com/renzoreyn/ShulkerBox/blob/main/CHANGELOG.md">View on GitHub</a></p><p style="color:var(--muted);margin-top:8px">${err.message}</p>`;
+        statusEl.classList.remove("hidden");
+        statusEl.innerHTML =
+          '<i data-lucide="loader-circle"></i><p>Loading changelog…</p>';
+        if (window.lucide) lucide.createIcons();
       }
-      throw err;
+
+      try {
+        const md = await fetchMarkdown();
+        const entries = parseMarkdown(md);
+        if (statusEl) statusEl.classList.add("hidden");
+
+        feedEl.innerHTML = "";
+        const frag = document.createDocumentFragment();
+        entries.forEach((entry) => {
+          frag.appendChild(renderEntry(entry));
+        });
+        feedEl.appendChild(frag);
+
+        if (navEl) renderNav(entries, navEl);
+
+        mounted = true;
+        document.dispatchEvent(
+          new CustomEvent("changelog:ready", { detail: { entries } })
+        );
+        if (window.lucide) lucide.createIcons();
+        return entries;
+      } catch (err) {
+        if (statusEl) {
+          statusEl.classList.remove("hidden");
+          statusEl.innerHTML = `<p>Changelog unavailable. <a href="https://github.com/renzoreyn/ShulkerBox/blob/main/CHANGELOG.md" target="_blank" rel="noopener">View on GitHub</a></p><p style="color:var(--muted);margin-top:8px">${err.message}</p>`;
+        }
+        throw err;
+      }
+    })();
+    return mountPromise;
+  }
+
+  function close() {
+    if (!modalEl) return;
+    modalEl.classList.remove("is-open");
+    modalEl.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
+    if (lastFocus && typeof lastFocus.focus === "function") {
+      lastFocus.focus();
+    }
+    lastFocus = null;
+  }
+
+  function open() {
+    if (!modalEl) return;
+    lastFocus = document.activeElement;
+    modalEl.classList.add("is-open");
+    modalEl.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+    const closeBtn = modalEl.querySelector(".changelog-modal-close");
+    if (closeBtn) closeBtn.focus();
+    if (window.lucide) lucide.createIcons();
+  }
+
+  async function openAndLoad(mountOpts) {
+    open();
+    try {
+      await mount(mountOpts);
+    } catch {
+      /* error UI in modal */
     }
   }
 
-  return { parseMarkdown, fetchMarkdown, mount };
+  function initModal({ modalId = "changelog-modal", mountOpts, preload = true } = {}) {
+    modalEl = document.getElementById(modalId);
+    if (!modalEl) return;
+
+    scrollRoot = modalEl.querySelector(".changelog-modal-scroll");
+
+    modalEl.querySelectorAll("[data-changelog-close]").forEach((el) => {
+      el.addEventListener("click", close);
+    });
+
+    document.addEventListener("keydown", (ev) => {
+      if (ev.key === "Escape" && modalEl?.classList.contains("is-open")) {
+        close();
+      }
+    });
+
+    document.querySelectorAll(".js-open-changelog").forEach((trigger) => {
+      trigger.addEventListener("click", (ev) => {
+        const href = trigger.getAttribute("href");
+        if (href === "#changelog" || trigger.classList.contains("js-open-changelog")) {
+          ev.preventDefault();
+        }
+        openAndLoad(mountOpts);
+      });
+    });
+
+    if (mountOpts && preload) {
+      mount(mountOpts).catch(() => {});
+    }
+  }
+
+  return {
+    parseMarkdown,
+    fetchMarkdown,
+    mount,
+    initModal,
+    open,
+    close,
+    openAndLoad,
+  };
 })();

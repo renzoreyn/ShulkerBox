@@ -15,17 +15,28 @@
   <link rel="stylesheet" href="css/site.css" />
 </head>
 <body>
+  <div id="context-menu" class="context-menu hidden" role="menu" aria-hidden="true">
+    <span class="context-menu-label">
+      Made with <i data-lucide="heart" class="context-heart" aria-hidden="true"></i> by
+      <a href="https://github.com/renzoreyn" target="_blank" rel="noopener noreferrer">@Renzoreyn</a>
+    </span>
+  </div>
+
+  <p class="site-credit-fixed" aria-hidden="true">
+    Made with <i data-lucide="heart" class="context-heart" aria-hidden="true"></i> by @Renzoreyn
+  </p>
+
   <nav class="site-nav" id="site-nav" aria-label="Primary">
     <div class="nav-inner">
       <a class="nav-brand" href="#top" aria-label="Shulker Box home">
-        <img class="nav-logo" src="images/logo.png" alt="Shulker Box" width="280" height="56" />
+        <img class="nav-logo" src="images/logo.png" alt="Shulker Box" width="400" height="100" />
       </a>
       <div class="nav-links">
         <a href="#about">About</a>
         <a href="#features">Features</a>
         <a href="#workflow">Workflow</a>
         <a href="#releases">Releases</a>
-        <a href="#changelog">Changelog</a>
+        <a href="#changelog" class="js-open-changelog">Changelog</a>
       </div>
       <a class="btn btn-gold btn-sm" href="#download">
         <i data-lucide="download"></i>
@@ -221,28 +232,17 @@
     </div>
   </section>
 
-  <section class="section changelog-unreleased" id="changelog" style="background: var(--bg-elevated);">
-    <div class="section-inner">
-      <p class="section-kicker reveal">
-        <i data-lucide="scroll-text"></i> Changelog
-        <span class="live-badge">Live from CHANGELOG.md</span>
+  <section class="section section-compact" id="changelog">
+    <div class="section-inner changelog-teaser reveal">
+      <p class="section-kicker"><i data-lucide="scroll-text"></i> Changelog</p>
+      <h2 class="section-title">Ship notes <span class="accent">as you release.</span></h2>
+      <p class="section-lead" style="margin-bottom: 20px">
+        Version history loads live from <code>CHANGELOG.md</code> in the repo.
       </p>
-      <h2 class="section-title reveal">
-        Ship notes<br /><span class="accent">as you release.</span>
-      </h2>
-      <p class="section-lead reveal">
-        This page fetches <a href="CHANGELOG.md">CHANGELOG.md</a> from the repo, the same file you edit before each GitHub Release.
-      </p>
-      <div class="changelog-layout">
-        <nav id="changelog-nav" class="changelog-nav reveal" aria-label="Changelog versions"></nav>
-        <div>
-          <div id="changelog-status" class="loading-block">
-            <i data-lucide="loader-circle"></i>
-            <p>Loading changelog…</p>
-          </div>
-          <div id="changelog-feed" class="changelog-feed" aria-live="polite"></div>
-        </div>
-      </div>
+      <button type="button" class="btn btn-gold js-open-changelog" id="btn-open-changelog">
+        <i data-lucide="scroll-text"></i>
+        View full changelog
+      </button>
     </div>
   </section>
 
@@ -267,6 +267,33 @@
     </div>
   </section>
 
+  <div id="changelog-modal" class="changelog-modal" role="dialog" aria-modal="true" aria-labelledby="changelog-modal-title" aria-hidden="true">
+    <div class="changelog-modal-backdrop" data-changelog-close tabindex="-1"></div>
+    <div class="changelog-modal-panel" role="document">
+      <header class="changelog-modal-header">
+        <div>
+          <h2 id="changelog-modal-title">Changelog</h2>
+          <p class="changelog-modal-sub">Live from <a href="CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG.md</a></p>
+        </div>
+        <button type="button" class="changelog-modal-close" data-changelog-close aria-label="Close changelog">
+          <i data-lucide="x"></i>
+        </button>
+      </header>
+      <div class="changelog-modal-body">
+        <div class="changelog-layout">
+          <nav id="changelog-nav" class="changelog-nav" aria-label="Changelog versions"></nav>
+          <div class="changelog-modal-scroll">
+            <div id="changelog-status" class="loading-block">
+              <i data-lucide="loader-circle"></i>
+              <p>Loading changelog…</p>
+            </div>
+            <div id="changelog-feed" class="changelog-feed" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer class="site-footer">
     <p class="footer-credits">
       Made by <a href="https://github.com/renzoreyn" target="_blank" rel="noopener noreferrer">@renzoreyn</a>
@@ -274,7 +301,7 @@
     <p class="footer-links">
       <a href="https://github.com/renzoreyn/ShulkerBox" target="_blank" rel="noopener">GitHub</a>
       ·
-      <a href="CHANGELOG.md">Changelog</a>
+      <a href="#changelog" class="js-open-changelog">Changelog</a>
       ·
       <a href="https://github.com/renzoreyn/ShulkerBox/blob/main/LICENSE" target="_blank" rel="noopener">License</a>
     </p>

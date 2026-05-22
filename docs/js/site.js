@@ -15,6 +15,59 @@ function initLucide() {
   }
 }
 
+function initUnselectable() {
+  document.addEventListener("copy", (ev) => ev.preventDefault());
+  document.addEventListener("cut", (ev) => ev.preventDefault());
+  document.addEventListener("selectstart", (ev) => ev.preventDefault());
+}
+
+function initContextMenu() {
+  const menu = document.getElementById("context-menu");
+  if (!menu) return;
+
+  const hide = () => {
+    menu.classList.add("hidden");
+    menu.setAttribute("aria-hidden", "true");
+  };
+
+  const show = (x, y) => {
+    const pad = 8;
+    menu.classList.remove("hidden");
+    menu.setAttribute("aria-hidden", "false");
+    menu.style.visibility = "hidden";
+    menu.style.left = "0";
+    menu.style.top = "0";
+    if (window.lucide) lucide.createIcons();
+    const rect = menu.getBoundingClientRect();
+    let left = x;
+    let top = y;
+    if (left + rect.width > window.innerWidth - pad) {
+      left = window.innerWidth - rect.width - pad;
+    }
+    if (top + rect.height > window.innerHeight - pad) {
+      top = window.innerHeight - rect.height - pad;
+    }
+    menu.style.left = `${Math.max(pad, left)}px`;
+    menu.style.top = `${Math.max(pad, top)}px`;
+    menu.style.visibility = "";
+  };
+
+  document.addEventListener("contextmenu", (ev) => {
+    ev.preventDefault();
+    show(ev.clientX, ev.clientY);
+  });
+
+  document.addEventListener("pointerdown", (ev) => {
+    if (!menu.contains(ev.target)) hide();
+  });
+  document.addEventListener("keydown", (ev) => {
+    if (ev.key === "Escape") hide();
+  });
+  window.addEventListener("blur", hide);
+  window.addEventListener("resize", hide);
+  window.addEventListener("scroll", hide, { passive: true });
+}
+
 function initNav() {
   const nav = document.getElementById("site-nav");
   if (!nav) return;
@@ -217,23 +270,6 @@ function initGsap() {
       );
     });
 
-    document.addEventListener("changelog:ready", () => {
-      gsap.fromTo(
-        "#changelog-feed .changelog-entry",
-        { opacity: 0, y: 18 },
-        {
-          opacity: 1,
-          y: 0,
-          stagger: 0.06,
-          duration: 0.45,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: "#changelog",
-            start: "top 78%",
-          },
-        }
-      );
-    });
   } catch (err) {
     console.warn("GSAP init failed", err);
   }
@@ -254,17 +290,18 @@ function setLatestVersionBadge() {
 
 document.addEventListener("DOMContentLoaded", () => {
   initLucide();
+  initUnselectable();
+  initContextMenu();
   initNav();
   setLatestVersionBadge();
   loadReleases();
 
-  Changelog.mount({
+  const changelogMount = {
     feedEl: document.getElementById("changelog-feed"),
     navEl: document.getElementById("changelog-nav"),
     statusEl: document.getElementById("changelog-status"),
-  })
-    .then(() => initLucide())
-    .catch(() => {});
+  };
 
+  Changelog.initModal({ mountOpts: changelogMount, preload: true });
   initGsap();
 });
