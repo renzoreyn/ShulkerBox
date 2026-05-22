@@ -4,19 +4,7 @@ All notable changes to **Shulker Box** are documented here.
 
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).  
 Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html) (`MAJOR.MINOR.PATCH`).
-Downloads: [GitHub Releases](https://github.com/renzoreyn/ShulkerBox/releases)
-
----
-
-## [Unreleased]
-
-### Added
-
-### Changed
-
-### Fixed
-
-### Removed
+Downloads: [GitHub Releases](https://github.com/renzoreyn/ShulkerBox/releases).
 
 ---
 
