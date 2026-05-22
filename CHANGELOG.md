@@ -36,26 +36,6 @@ Downloads: [GitHub Releases](https://github.com/renzoreyn/ShulkerBox/releases).
 
 ---
 
-## [1.0.1] (Deprecated) - 2026-05-22
-
-QoL UI update (pre-updater polish).
-
-### Changed
-
-- Modern dark UI: stats bar, detail panel, full-width Pack button.
-- Readable app names under icons; version badge in header.
-- Click to select app, click again to toggle ON/OFF.
-- Raw app icons from API with pixel fallback.
-- Responsive layout; credits footer and custom context menu.
-
-### Fixed
-
-- Missing footer / credits.
-- Horizontal scroll on app row.
-- Multi-click quirks on app tiles.
-
----
-
 ## [1.0.0] - 2026-05-22
 
 [Release](https://github.com/renzoreyn/ShulkerBox/releases/tag/v1.0.0)
