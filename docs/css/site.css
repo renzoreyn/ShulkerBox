@@ -1,9 +1,3 @@
-@font-face {
-  font-family: "Press Start 2P";
-  src: url("../assets/fonts/PressStart2P-Regular.ttf") format("truetype");
-  font-display: swap;
-}
-
 :root {
   --bg: #070709;
   --bg-elevated: #111116;
@@ -16,8 +10,7 @@
   --on: #34d399;
   --text: #fafafa;
   --muted: #a1a1aa;
-  --font: "Segoe UI", system-ui, sans-serif;
-  --font-pixel: "Press Start 2P", monospace;
+  --font: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   --radius: 14px;
   --nav-h: 72px;
   --max: 1120px;
@@ -133,8 +126,9 @@ html::-webkit-scrollbar-thumb {
 }
 
 .nav-logo {
-  width: 36px;
-  height: 36px;
+  height: 42px;
+  width: auto;
+  max-width: 220px;
   object-fit: contain;
   filter: drop-shadow(0 0 10px var(--purple-glow));
 }
@@ -551,8 +545,9 @@ html::-webkit-scrollbar-thumb {
 }
 
 .step-num {
-  font-family: var(--font-pixel);
-  font-size: 0.55rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
   color: var(--gold);
   margin-bottom: 12px;
 }
@@ -873,10 +868,32 @@ html::-webkit-scrollbar-thumb {
   font-weight: 600;
 }
 
-/* Reveal helper */
+.footer-credits {
+  font-size: 0.95rem;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.footer-credits a {
+  color: var(--gold);
+}
+
+.footer-links {
+  margin-bottom: 10px;
+}
+
+.footer-note {
+  margin-top: 8px;
+  opacity: 0.75;
+  font-size: 0.82rem;
+  max-width: 52ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Scroll-driven motion only (no hidden-by-default; avoids blank page if GSAP fails) */
 .reveal {
-  opacity: 0;
-  transform: translateY(28px);
+  will-change: transform, opacity;
 }
 
 @media (max-width: 960px) {

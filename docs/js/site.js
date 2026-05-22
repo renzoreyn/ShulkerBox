@@ -109,86 +109,134 @@ async function loadReleases() {
 
 function initGsap() {
   if (typeof gsap === "undefined" || prefersReducedMotion()) {
-    document.querySelectorAll(".reveal").forEach((el) => {
-      el.style.opacity = "1";
-      el.style.transform = "none";
-    });
     return;
   }
 
-  if (typeof ScrollTrigger !== "undefined") {
-    gsap.registerPlugin(ScrollTrigger);
+  try {
+    if (typeof ScrollTrigger !== "undefined") {
+      gsap.registerPlugin(ScrollTrigger);
+    }
+
+    const heroTl = gsap.timeline({ defaults: { ease: "power3.out" } });
+    heroTl
+      .fromTo(
+        ".hero .eyebrow",
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.5 }
+      )
+      .fromTo(
+        ".hero h1",
+        { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 0.65 },
+        "-=0.25"
+      )
+      .fromTo(
+        ".hero-sub",
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: 0.5 },
+        "-=0.35"
+      )
+      .fromTo(
+        ".hero-actions .btn",
+        { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, stagger: 0.08, duration: 0.45 },
+        "-=0.3"
+      )
+      .fromTo(
+        ".hero-meta span",
+        { opacity: 0, x: -10 },
+        { opacity: 1, x: 0, stagger: 0.06, duration: 0.4 },
+        "-=0.25"
+      )
+      .fromTo(
+        ".hero-visual",
+        { opacity: 0, scale: 0.96, y: 30 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.8 },
+        "-=0.5"
+      );
+
+    gsap.to(".hero-glow", {
+      opacity: 0.85,
+      scale: 1.05,
+      duration: 4,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+    });
+
+    document.querySelectorAll(".section, .stats-band, .cta-section").forEach((section) => {
+      const items = section.querySelectorAll(".reveal");
+      if (!items.length || typeof ScrollTrigger === "undefined") return;
+      gsap.fromTo(
+        items,
+        { opacity: 0, y: 28 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.06,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: section,
+            start: "top 82%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    });
+
+    if (typeof ScrollTrigger !== "undefined") {
+      ScrollTrigger.batch(".stat-item", {
+        start: "top 85%",
+        onEnter: (batch) => {
+          gsap.fromTo(
+            batch,
+            { opacity: 0, y: 20 },
+            { opacity: 1, y: 0, duration: 0.55, stagger: 0.1, ease: "power2.out" }
+          );
+        },
+        once: true,
+      });
+    }
+
+    document.addEventListener("releases:ready", () => {
+      gsap.fromTo(
+        "#releases-list .release-card",
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.08,
+          duration: 0.5,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: "#releases",
+            start: "top 75%",
+          },
+        }
+      );
+    });
+
+    document.addEventListener("changelog:ready", () => {
+      gsap.fromTo(
+        "#changelog-feed .changelog-entry",
+        { opacity: 0, y: 18 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.06,
+          duration: 0.45,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: "#changelog",
+            start: "top 78%",
+          },
+        }
+      );
+    });
+  } catch (err) {
+    console.warn("GSAP init failed", err);
   }
-
-  const heroTl = gsap.timeline({ defaults: { ease: "power3.out" } });
-  heroTl
-    .from(".hero .eyebrow", { opacity: 0, y: 16, duration: 0.5 })
-    .from(".hero h1", { opacity: 0, y: 24, duration: 0.65 }, "-=0.25")
-    .from(".hero-sub", { opacity: 0, y: 18, duration: 0.5 }, "-=0.35")
-    .from(".hero-actions .btn", { opacity: 0, y: 14, stagger: 0.08, duration: 0.45 }, "-=0.3")
-    .from(".hero-meta span", { opacity: 0, x: -10, stagger: 0.06, duration: 0.4 }, "-=0.25")
-    .from(".hero-visual", { opacity: 0, scale: 0.96, y: 30, duration: 0.8 }, "-=0.5");
-
-  gsap.to(".hero-glow", {
-    opacity: 0.85,
-    scale: 1.05,
-    duration: 4,
-    repeat: -1,
-    yoyo: true,
-    ease: "sine.inOut",
-  });
-
-  const reveal = gsap.utils.toArray(".section .reveal, .stats-band .reveal, .cta-section .reveal");
-  reveal.forEach((el) => {
-    gsap.from(el, {
-      scrollTrigger: {
-        trigger: el,
-        start: "top 88%",
-        toggleActions: "play none none none",
-      },
-      opacity: 0,
-      y: 32,
-      duration: 0.65,
-      ease: "power2.out",
-    });
-  });
-
-  document.addEventListener("releases:ready", () => {
-    gsap.from("#releases-list .release-card", {
-      opacity: 0,
-      y: 20,
-      stagger: 0.08,
-      duration: 0.5,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: "#releases",
-        start: "top 75%",
-      },
-    });
-  });
-
-  document.addEventListener("changelog:ready", () => {
-    gsap.from("#changelog-feed .changelog-entry", {
-      opacity: 0,
-      y: 18,
-      stagger: 0.06,
-      duration: 0.45,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: "#changelog",
-        start: "top 78%",
-      },
-    });
-  });
-
-  gsap.from(".stat-item", {
-    scrollTrigger: { trigger: ".stats-band", start: "top 80%" },
-    opacity: 0,
-    y: 20,
-    stagger: 0.1,
-    duration: 0.55,
-    ease: "power2.out",
-  });
 }
 
 function setLatestVersionBadge() {
@@ -216,7 +264,9 @@ document.addEventListener("DOMContentLoaded", () => {
     feedEl: document.getElementById("changelog-feed"),
     navEl: document.getElementById("changelog-nav"),
     statusEl: document.getElementById("changelog-status"),
-  }).then(() => initLucide());
+  })
+    .then(() => initLucide())
+    .catch(() => {});
 
   initGsap();
 });
