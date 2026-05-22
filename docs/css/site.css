@@ -137,7 +137,7 @@ html::-webkit-scrollbar-button {
 }
 
 .nav-logo {
-  height: 56px;
+  height: 100px;
   width: auto;
   max-width: min(300px, 46vw);
   object-fit: contain;
@@ -216,12 +216,19 @@ html::-webkit-scrollbar-button {
   background: rgba(255, 255, 255, 0.04);
   color: var(--text);
   border: 1px solid var(--border);
+  cursor: pointer;
+  pointer-events: auto;
 }
 
 .btn-outline:hover {
   border-color: var(--purple);
   background: rgba(163, 113, 163, 0.14);
   text-decoration: none;
+}
+
+.release-actions .btn {
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 .btn-sm {
@@ -393,59 +400,6 @@ html::-webkit-scrollbar-button {
   width: 16px;
   height: 16px;
   color: var(--on);
-}
-
-.hero-visual {
-  position: relative;
-  width: 100%;
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 28px 12px 8px;
-}
-
-.hero-visual-glow {
-  position: absolute;
-  inset: 0 -8% -5%;
-  background:
-    radial-gradient(ellipse 85% 65% at 50% 35%, rgba(163, 113, 163, 0.42), transparent 68%),
-    radial-gradient(ellipse 70% 55% at 50% 95%, rgba(250, 204, 21, 0.14), transparent 72%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.hero-visual-rays {
-  position: absolute;
-  top: -5%;
-  left: 50%;
-  width: 140%;
-  height: 75%;
-  transform: translateX(-50%);
-  background: conic-gradient(
-    from 200deg at 50% 100%,
-    transparent 0deg,
-    rgba(163, 113, 163, 0.22) 18deg,
-    transparent 36deg,
-    rgba(250, 204, 21, 0.1) 52deg,
-    transparent 70deg,
-    rgba(163, 113, 163, 0.16) 88deg,
-    transparent 110deg
-  );
-  filter: blur(36px);
-  opacity: 0.9;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.hero-shot {
-  position: relative;
-  z-index: 1;
-  display: block;
-  width: 100%;
-  border-radius: var(--radius);
-  border: 1px solid rgba(163, 113, 163, 0.25);
-  box-shadow:
-    0 24px 64px rgba(0, 0, 0, 0.5),
-    0 0 80px rgba(163, 113, 163, 0.15);
 }
 
 /* Feature cards */
@@ -985,31 +939,6 @@ body.modal-open {
   margin-right: auto;
 }
 
-/* Fixed credit (always visible, not selectable) */
-.site-credit-fixed {
-  position: fixed;
-  right: 12px;
-  bottom: 10px;
-  z-index: 50;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 0.68rem;
-  font-weight: 600;
-  color: var(--muted);
-  opacity: 0.45;
-  pointer-events: none;
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-.site-credit-fixed .context-heart {
-  width: 12px;
-  height: 12px;
-  color: #f472b6;
-  fill: rgba(244, 114, 182, 0.35);
-}
-
 /* Custom context menu */
 .context-menu {
   position: fixed;
@@ -1046,13 +975,28 @@ body.modal-open {
   text-decoration: underline;
 }
 
+.context-heart-wrap {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  margin: 0 2px;
+}
+
 .context-heart {
   width: 14px;
   height: 14px;
   flex-shrink: 0;
-  color: #f472b6;
-  stroke: #f472b6;
-  fill: rgba(244, 114, 182, 0.4);
+  color: var(--purple);
+  stroke: var(--purple);
+  fill: rgba(163, 113, 163, 0.35);
+  transition: color 0.2s ease, stroke 0.2s ease, fill 0.2s ease;
+}
+
+.context-menu-label:hover .context-heart,
+.context-heart-wrap:hover .context-heart {
+  color: var(--gold);
+  stroke: var(--gold);
+  fill: rgba(250, 204, 21, 0.4);
 }
 
 /* Scroll-driven motion only (no hidden-by-default; avoids blank page if GSAP fails) */

@@ -311,7 +311,7 @@ const Changelog = (() => {
     }
   }
 
-  return {
+  const api = {
     parseMarkdown,
     fetchMarkdown,
     mount,
@@ -323,4 +323,7 @@ const Changelog = (() => {
     showAllVersions,
     findEntry,
   };
+
+  window.Changelog = api;
+  return api;
 })();

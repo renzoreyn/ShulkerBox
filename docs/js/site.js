@@ -18,7 +18,26 @@ function initLucide() {
 function initUnselectable() {
   document.addEventListener("copy", (ev) => ev.preventDefault());
   document.addEventListener("cut", (ev) => ev.preventDefault());
-  document.addEventListener("selectstart", (ev) => ev.preventDefault());
+  document.addEventListener("selectstart", (ev) => {
+    if (ev.target.closest("button, a, input, textarea")) return;
+    ev.preventDefault();
+  });
+}
+
+function initReleaseChangelogClicks() {
+  const list = document.getElementById("releases-list");
+  if (!list) return;
+  list.addEventListener("click", (ev) => {
+    const btn = ev.target.closest(".js-release-changelog");
+    if (!btn) return;
+    ev.preventDefault();
+    ev.stopPropagation();
+    const version = btn.dataset.version;
+    const api = window.Changelog;
+    const mount = window.changelogMount;
+    if (!version || !api || !mount) return;
+    api.openVersion(version, mount);
+  });
 }
 
 function initContextMenu() {
@@ -153,15 +172,6 @@ async function loadReleases() {
       container.appendChild(card);
     });
 
-    container.querySelectorAll(".js-release-changelog").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const version = btn.dataset.version;
-        if (version && window.Changelog) {
-          Changelog.openVersion(version, window.changelogMount);
-        }
-      });
-    });
-
     initLucide();
     document.dispatchEvent(new CustomEvent("releases:ready"));
   } catch (err) {
@@ -213,13 +223,6 @@ function initGsap() {
         { opacity: 1, x: 0, stagger: 0.06, duration: 0.4 },
         "-=0.25"
       )
-      .fromTo(
-        ".hero-shot",
-        { opacity: 0, scale: 0.98, y: 24 },
-        { opacity: 1, scale: 1, y: 0, duration: 0.75 },
-        "-=0.35"
-      );
-
     gsap.to(".hero-glow", {
       opacity: 0.85,
       scale: 1.05,
@@ -311,7 +314,10 @@ document.addEventListener("DOMContentLoaded", () => {
   initUnselectable();
   initContextMenu();
   initNav();
-  Changelog.initModal({ mountOpts: window.changelogMount, preload: true });
+  if (window.Changelog) {
+    window.Changelog.initModal({ mountOpts: window.changelogMount, preload: true });
+  }
+  initReleaseChangelogClicks();
   setLatestVersionBadge();
   loadReleases();
   initGsap();
