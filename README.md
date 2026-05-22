@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://creatorlabs.net/wp-content/uploads/2023/12/shulker.gif" width="72" alt="Shulker Box" />
+  <img src="https://creatorlabs.net/wp-content/uploads/2023/12/shulker.gif" width="144" alt="Shulker Box" />
 </p>
 
 <h1 align="center">Shulker Box</h1>
