@@ -4,7 +4,28 @@ All notable changes to **Shulker Box** are documented here.
 
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).  
 Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html) (`MAJOR.MINOR.PATCH`).
-Downloads: [GitHub Releases](https://github.com/renzoreyn/ShulkerBox/releases).
+
+## [1.0.3] - 2026-05-22
+
+[Release](https://github.com/renzoreyn/ShulkerBox/releases/tag/v1.0.3)
+
+### Added
+
+- **Custom folders** — **+ Add custom folder** for any path (projects, saves, mods); stored in `custom_folders.json`.
+- **`shulkerbox-source.txt`** in the chest for each custom folder (original path for unpack, even if config changes).
+- Chest **total size** on the stats bar (third pill).
+- Per-item **Source / In chest** sizes in the detail panel.
+- **Windows settings** panel — registry + display-language backup status on every pack.
+
+### Changed
+
+- Packed count reflects real data in the chest (fixes “0 packed” when items exist).
+- Stale pack hint in the stats bar after 7 days (reminder only, no scheduler).
+
+### Fixed
+
+- Chest size pill showed `—` when a backup existed.
+- In-app **Updates** check: browser-first GitHub lookup, no long hang on old API routes.
 
 ---
 
@@ -36,6 +57,26 @@ Downloads: [GitHub Releases](https://github.com/renzoreyn/ShulkerBox/releases).
 
 ---
 
+## [1.0.1] - 2026-05-22
+
+QoL UI update (pre-updater polish).
+
+### Changed
+
+- Modern dark UI: stats bar, detail panel, full-width Pack button.
+- Readable app names under icons; version badge in header.
+- Click to select app, click again to toggle ON/OFF.
+- Raw app icons from API with pixel fallback.
+- Responsive layout; credits footer and custom context menu.
+
+### Fixed
+
+- Missing footer / credits.
+- Horizontal scroll on app row.
+- Multi-click quirks on app tiles.
+
+---
+
 ## [1.0.0] - 2026-05-22
 
 [Release](https://github.com/renzoreyn/ShulkerBox/releases/tag/v1.0.0)
@@ -54,7 +95,8 @@ First public portable release.
 
 ---
 
-[Unreleased]: https://github.com/renzoreyn/ShulkerBox/compare/v1.0.2...HEAD
+[Unreleased]: https://github.com/renzoreyn/ShulkerBox/compare/v1.0.3...HEAD
+[1.0.3]: https://github.com/renzoreyn/ShulkerBox/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/renzoreyn/ShulkerBox/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/renzoreyn/ShulkerBox/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/renzoreyn/ShulkerBox/releases/tag/v1.0.0
