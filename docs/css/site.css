@@ -279,6 +279,18 @@ html::-webkit-scrollbar {
   background: #0a0908;
 }
 
+.hero-dirt {
+  position: absolute;
+  inset: 0;
+  background-image: url("../images/dirt-texture.svg");
+  background-size: 80px 80px;
+  background-repeat: repeat;
+  image-rendering: pixelated;
+  opacity: 0.22;
+  pointer-events: none;
+  z-index: 0;
+}
+
 .hero-vignette {
   position: absolute;
   inset: 0;
@@ -338,38 +350,8 @@ html::-webkit-scrollbar {
   align-items: start;
 }
 
-.hero-panel {
-  position: relative;
+.hero-inner--stack .hero-copy {
   max-width: 720px;
-  padding: 32px 36px 36px;
-  border: 1px solid rgba(250, 204, 21, 0.22);
-  border-radius: 6px;
-  background: rgba(12, 10, 9, 0.82);
-  overflow: hidden;
-}
-
-.hero-panel-dirt {
-  position: absolute;
-  inset: 0;
-  background-image: url("../images/dirt-texture.svg");
-  background-size: 72px 72px;
-  background-repeat: repeat;
-  image-rendering: pixelated;
-  opacity: 0.2;
-  pointer-events: none;
-}
-
-.hero-panel::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(7, 7, 9, 0.15) 0%, rgba(7, 7, 9, 0.45) 100%);
-  pointer-events: none;
-}
-
-.hero-copy {
-  position: relative;
-  z-index: 1;
 }
 
 .hero-inner--stack .hero-sub {
@@ -377,16 +359,60 @@ html::-webkit-scrollbar {
 }
 
 .hero-copy .eyebrow {
-  display: inline-block;
-  padding: 8px 14px;
-  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+  padding: 6px 14px;
+  border-radius: 999px;
   background: var(--gold-dim);
   border: 1px solid rgba(250, 204, 21, 0.35);
   color: var(--gold);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.02em;
   margin-bottom: 20px;
+}
+
+.eyebrow-icon {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  stroke: currentColor;
+}
+
+.eyebrow-label {
+  position: relative;
+  z-index: 1;
+}
+
+.eyebrow-glimmer {
+  position: absolute;
+  inset: 0;
+  width: 45%;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.06) 35%,
+    rgba(250, 204, 21, 0.55) 50%,
+    rgba(255, 255, 255, 0.06) 65%,
+    transparent 100%
+  );
+  transform: translateX(-130%);
+  animation: eyebrow-glimmer-sweep 3.2s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+@keyframes eyebrow-glimmer-sweep {
+  0%,
+  42% {
+    transform: translateX(-130%);
+  }
+  58%,
+  100% {
+    transform: translateX(280%);
+  }
 }
 
 .hero h1 {
@@ -1115,10 +1141,6 @@ body.modal-open {
 }
 
 @media (max-width: 640px) {
-  .hero-panel {
-    padding: 24px 20px 28px;
-  }
-
   .feature-grid,
   .steps,
   .stats-row {
